@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const jwt = require('jsonwebtoken');
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -38,6 +39,12 @@ async function run() {
     const usersCollection = client.db("summer-camp-DB").collection("users");
     const classCollection = client.db("summer-camp-DB").collection("class");
     const cartCollection = client.db("summer-camp-DB").collection("carts");
+
+    app.post('/jwt', (req, res)=>{
+      const user = req.body;
+      const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' })
+      res.send({ token })
+    })
 
     // Users API
 
