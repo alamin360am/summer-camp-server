@@ -36,6 +36,10 @@ async function run() {
     await client.connect();
 
     const classCollection = client.db("summer-camp-DB").collection("class");
+    const cartCollection = client.db("summer-camp-DB").collection("carts");
+
+
+    // Class API
 
     app.get("/classes", async(req, res) =>{
         let query = {}
@@ -46,7 +50,17 @@ async function run() {
         res.send(result);
     })
 
+    // Cart API
 
+    
+
+    app.post('/carts', async(req, res) =>{
+      const item = req.body;
+      const result = await cartCollection.insertOne(item);
+      res.send(result);
+    })
+
+    
 
 
     // Send a ping to confirm a successful connection
