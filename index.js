@@ -171,6 +171,7 @@ async function run() {
     })
 
     // Instructor API
+
     app.get("/instructor", async(req, res)=>{
       let query = {}
       const options = {
@@ -178,6 +179,12 @@ async function run() {
       }
       const result = await instructorCollection.find(query, options).toArray();
       res.send(result);
+    })
+
+    app.post('/instructor', async(req, res)=>{
+      const instructor = req.body;
+      const result = await instructorCollection.insertOne(instructor);
+      res.send(result)
     })
 
     // Cart API
