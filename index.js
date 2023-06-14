@@ -182,6 +182,17 @@ async function run() {
       res.send(result);
     })
 
+    app.get('/added_classes/:email',  async(req, res)=>{
+      const email = req.params.email;
+      if(!email) {
+        res.send([])
+      }
+
+      const query = { email: email };
+      const result = await addedClassCollection.find(query).toArray();
+      res.send(result);
+    })
+
     app.post("/added_classes", async(req, res)=>{
       const classes = req.body;
       const result = await addedClassCollection.insertOne(classes);
