@@ -188,6 +188,18 @@ async function run() {
       res.send(result);
     })
 
+    app.patch('/added_classes/approved/:id', async(req, res)=>{
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const updateDoc = {
+        $set: {
+          status: 'approved'
+        }
+      }
+      const result = await addedClassCollection.updateOne(filter, updateDoc);
+      res.send(result);
+    })
+
     // Instructor API
 
     app.get("/instructor", async(req, res)=>{
