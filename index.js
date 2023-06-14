@@ -56,6 +56,7 @@ async function run() {
     const usersCollection = client.db("summer-camp-DB").collection("users");
     const classCollection = client.db("summer-camp-DB").collection("class");
     const cartCollection = client.db("summer-camp-DB").collection("carts");
+    const instructorCollection = client.db("summer-camp-DB").collection("instructor");
 
     app.post('/jwt', (req, res)=>{
       const user = req.body;
@@ -167,6 +168,16 @@ async function run() {
         }
         const result = await classCollection.find(query, options).toArray();
         res.send(result);
+    })
+
+    // Instructor API
+    app.get("/instructor", async(req, res)=>{
+      let query = {}
+      const options = {
+        sort: {"numberOfStudents" : -1}
+      }
+      const result = await instructorCollection.find(query, options).toArray();
+      res.send(result);
     })
 
     // Cart API
