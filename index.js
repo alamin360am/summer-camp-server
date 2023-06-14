@@ -55,6 +55,7 @@ async function run() {
 
     const usersCollection = client.db("summer-camp-DB").collection("users");
     const classCollection = client.db("summer-camp-DB").collection("class");
+    const addedClassCollection = client.db("summer-camp-DB").collection("added_class");
     const cartCollection = client.db("summer-camp-DB").collection("carts");
     const instructorCollection = client.db("summer-camp-DB").collection("instructor");
 
@@ -170,6 +171,23 @@ async function run() {
         res.send(result);
     })
 
+    app.post("/classes", async(req, res)=>{
+      const classes = req.body;
+      const result = await classCollection.insertOne(classes);
+      res.send(result);
+    })
+
+    app.get("/added_classes", async(req, res)=>{
+      const result = await addedClassCollection.find().toArray();
+      res.send(result);
+    })
+
+    app.post("/added_classes", async(req, res)=>{
+      const classes = req.body;
+      const result = await addedClassCollection.insertOne(classes);
+      res.send(result);
+    })
+
     // Instructor API
 
     app.get("/instructor", async(req, res)=>{
@@ -184,7 +202,7 @@ async function run() {
     app.post('/instructor', async(req, res)=>{
       const instructor = req.body;
       const result = await instructorCollection.insertOne(instructor);
-      res.send(result)
+      res.send(result);
     })
 
     // Cart API
