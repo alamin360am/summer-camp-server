@@ -182,6 +182,32 @@ async function run() {
       res.send(result);
     })
 
+    app.get("/added_classes/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await addedClassCollection.findOne(query);
+      res.send(result);
+    });
+
+    app.put("/added_classes/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updatedClass = req.body;
+      const newToy = {
+        $set: {
+          title: updatedClass.title,
+          instructorName: updatedClass.instructorName,
+          instructorEmail: updatedClass.instructorEmail,
+          price: updatedClass.price,
+          photoUrl: updatedClass.photoUrl,
+          availableSeats: updatedClass.availableSeats,
+        },
+      };
+      const result = await addedClassCollection.updateOne( filter, newToy, options );
+      res.send(result);
+    });
+
     app.get('/added_classes/:email',  async(req, res)=>{
       const email = req.params.email;
       if(!email) {
